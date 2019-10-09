@@ -28,7 +28,7 @@ AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/ayuda - Guia para utiliz
 GRUPO = "XXXXXX" #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
 
 
-JohnFKennedy = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
+JohnFKennedyBot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
 
 #############################################
 #Listener
@@ -47,17 +47,17 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
 
             mensaje = str(m.from_user.first_name) + "[" + str(cid) + "]: " + m.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
 
-        f = open( 'log.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
+        f = open( 'JohnFKennedyBotlog.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
 
         f.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
 
         f.close() # Cerramos el fichero para que se guarde.
 
-        JohnFKennedy.send_message(cid, "Que pasa bro")
+        JohnFKennedyBot.send_message(cid, "Que pasa bro")
 
         #print mensaje # Imprimimos el mensaje en la terminal, que nunca viene mal :)
 
 
 
-JohnFKennedy.set_update_listener(listener) # Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
-JohnFKennedy.polling()
+JohnFKennedyBot.set_update_listener(listener) # Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
+JohnFKennedyBot.polling()

@@ -1,0 +1,3 @@
+ Name  / cid / Datetime / message
+Arnau [349656905|16/10/2019 18:27:57]: hola
+Arnau [349656905|16/10/2019 18:28:05]: hola

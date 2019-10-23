@@ -24,8 +24,9 @@ TOKEN = "891479632:AAEMeE7Ca15mkC0sVoY7g8F3I5F2MSktUxE" # token del bot.
 
 
 
-AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/ayuda - Guia para utilizar el bot. \n/info - Informacion De interes \n/hola - Saludo del Bot \n/b0_0sk - Informacion sobre b0_0sk \n\n'
+AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/info - Guia para utilizar el bot\n/hola - Saludo del Bot \n/b0_0sk - Informacion sobre b0_0sk \n\n'
 
+SET_CHANNEL = 'Introduiex el channel que vols que que consulti.\n'
 
 GRUPO_BOT = "-270997133" #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
 
@@ -43,9 +44,10 @@ def command_ayuda(client): # Definimos una función que resuleva lo que necesite
 
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
 
-    time.sleep(5) #La respuesta del bot tarda 5 segundo en ejecutarse
+    time.sleep(1) #La respuesta del bot tarda 1 segundo en ejecutarse
 
     JohnFKennedyBot.send_message( cid, AYUDA) # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
+
 
 @JohnFKennedyBot.message_handler(commands=['info']) # Indicamos que lo siguiente va a controlar el comando '/info'
 
@@ -53,13 +55,18 @@ def command_info(client): # Definimos una función que resuleva lo que necesitem
 
     cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
 
-    if cid == GRUPO_BOT:
+    JohnFKennedyBot.send_message(cid, "Coming soon...")
 
-            JohnFKennedyBot.send_message( GRUPO, 'mensaje A') # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
+@JohnFKennedyBot.message_handler(commands=['set_channel']) # Indicamos que lo siguiente va a controlar el comando '/set_channel'
 
-    else :
+def set_channel(client): # Definimos una función que resuleva lo que necesitemos.
 
-            JohnFKennedyBot.send_message( cid, 'mensaje B')
+    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
+    
+    JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
+    
+    JohnFKennedyBot.send_message( cid, SET_CHANNEL) # Nos devolvera el mensaje que previamente hemos escrito en la variable SET_CHANNEL.
+
 
 def listener(messages): # Con esto, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
 
@@ -70,7 +77,7 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
         if cid != client.chat.id:
             cid = client.chat.id
 
-        JohnFKennedyBot.send_message(cid, cid)
+        #JohnFKennedyBot.send_message(cid, cid) // Enviar en un mensaje el cid de la conversacion
         if cid > 0: # Conversacion privada
 
             clientName =  str(client.chat.first_name) # nom del chat
@@ -82,8 +89,8 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
             nombre_documento = clientName
 
             mensaje = clientName + " [" + str(cid) + "|" + clientDatetime +"]: " + clientText     # Si 'cid' es positivo, usaremos 'm.chat.first_name' para el nombre.
-            JohnFKennedyBot.send_message(cid, "Esto es privado")
-            JohnFKennedyBot.send_message(cid, messages)
+            #JohnFKennedyBot.send_message(cid, "Esto es privado") // Enviar un mensaje si el chat es privado
+            #JohnFKennedyBot.send_message(cid, messages) // Enviar todo el metadato del mensaje
 
 
         elif cid < 0: # Conversacion grupal
@@ -101,20 +108,19 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
 
             nombre_documento = groupName
 
-            JohnFKennedyBot.send_message(cid, groupName)
-            JohnFKennedyBot.send_message(cid, messages)
-        # si el documento existe escribe debajo
-        # si no existe crealo y añade la siguiente linia name / cid / datetime / message
+            #JohnFKennedyBot.send_message(cid, groupName)
+            #JohnFKennedyBot.send_message(cid, messages)     
         
-
+        # si el documento existe escribe debajo
         if path.exists(nombre_documento + '.txt') == True:
-            JohnFKennedyBot.send_message(cid, "Existe")
+            #JohnFKennedyBot.send_message(cid, "Existe") //Chivato para comproba si el fichero existe 
             documentoNuevo = open(nombre_documento + '.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
 
-            
+        
+        # si no existe crearlo y añade la siguiente linia name / cid / datetime / message
         elif path.exists(nombre_documento + '.txt') == False:
 
-            JohnFKennedyBot.send_message(cid, "No existe")
+            #JohnFKennedyBot.send_message(cid, "No existe")//Chivato para comproba si el fichero no existe 
             documentoNuevo = open(nombre_documento + '.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
             documentoNuevo.write(" Name  / cid / Datetime / message" + "\n")
            

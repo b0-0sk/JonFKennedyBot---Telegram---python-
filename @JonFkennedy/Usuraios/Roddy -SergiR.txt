@@ -1,0 +1,3 @@
+ Name  / cid / Datetime / message
+Roddy -SergiR [940982884|23/10/2019 16:13:15]: Hola
+Roddy -SergiR [940982884|23/10/2019 16:13:29]: Hdidy9

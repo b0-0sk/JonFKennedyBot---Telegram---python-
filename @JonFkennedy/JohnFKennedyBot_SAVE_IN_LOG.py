@@ -43,7 +43,7 @@ def command_ayuda(client): # Definimos una función que resuleva lo que necesite
 
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
 
-    time.sleep(5) #La respuesta del bot tarda 1 segundo en ejecutarse
+    time.sleep(5) #La respuesta del bot tarda 5 segundo en ejecutarse
 
     JohnFKennedyBot.send_message( cid, AYUDA) # Con la función 'send_message()' del bot, enviamos al ID almacenado el texto que queremos.
 
@@ -105,27 +105,24 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
             JohnFKennedyBot.send_message(cid, messages)
         # si el documento existe escribe debajo
         # si no existe crealo y añade la siguiente linia name / cid / datetime / message
+        
 
         if path.exists(nombre_documento + '.txt') == True:
             JohnFKennedyBot.send_message(cid, "Existe")
-
             documentoNuevo = open(nombre_documento + '.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
-            documentoNuevo.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
 
-            documentoNuevo.close() # Cerramos el fichero para que se guarde.
+            
         elif path.exists(nombre_documento + '.txt') == False:
 
             JohnFKennedyBot.send_message(cid, "No existe")
             documentoNuevo = open(nombre_documento + '.txt', 'a') # Abrimos nuestro fichero log en modo 'Añadir'.
             documentoNuevo.write(" Name  / cid / Datetime / message" + "\n")
-            documentoNuevo.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
+           
 
-            documentoNuevo.close() # Cerramos el fichero para que se guarde.
-
-
-        #print mensaje # Imprimimos el mensaje en la terminal, que nunca viene mal :)
-
+        documentoNuevo.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
+        documentoNuevo.close() # Cerramos el fichero para que se guarde.
+        
 
 
-JohnFKennedyBot.set_update_listener(listener) # Así, le decimos al bot que utilice como función escuchadora nuestra función 'listener' declarada arriba.
+JohnFKennedyBot.set_update_listener(listener) # Así, le decimos al bot que utilice como función listener nuestra función 'listener' declarada arriba.
 JohnFKennedyBot.polling()

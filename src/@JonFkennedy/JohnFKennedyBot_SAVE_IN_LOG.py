@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-
 import telebot # Librería de la API del bot.
 
 from telebot import types # Tipos para la API del bot.
@@ -11,6 +10,7 @@ import time # Librería para hacer que el programa que controla el bot no se aca
 from datetime import datetime
 
 import os.path as path
+from encodings import undefined
 
 
 
@@ -19,7 +19,7 @@ import os.path as path
 
 
 
-TOKEN = "891479632:AAEMeE7Ca15mkC0sVoY7g8F3I5F2MSktUxE" # token del bot.
+token = "891479632:AAEMeE7Ca15mkC0sVoY7g8F3I5F2MSktUxE" # token del bot.
 
 
 
@@ -31,7 +31,7 @@ SET_CHANNEL = 'Introduiex el channel que vols que que consulti.\n'
 GRUPO_BOT = "-270997133" #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
 
 
-JohnFKennedyBot = telebot.TeleBot(TOKEN) # Creamos el objeto de nuestro bot.
+JohnFKennedyBot = telebot.TeleBot(token) # Creamos el objeto de nuestro bot.
 
 #############################################
 #Listener
@@ -57,9 +57,20 @@ def command_info(client): # Definimos una función que resuleva lo que necesitem
 
     JohnFKennedyBot.send_message(cid, "Coming soon...")
 
-@JohnFKennedyBot.message_handler(commands=['set_channel']) # Indicamos que lo siguiente va a controlar el comando '/set_channel'
+@JohnFKennedyBot.message_handler(commands=['historial']) # Indicamos que lo siguiente va a controlar el comando '/set_channel' INUTIL
 
-def set_channel(client): # Definimos una función que resuleva lo que necesitemos.
+def historial(client): # Definimos una función que resuleva lo que necesitemos.
+
+    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
+    
+    JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
+    
+    JohnFKennedyBot.send_message( cid, SET_CHANNEL) # Nos devolvera el mensaje que previamente hemos escrito en la variable SET_CHANNEL.
+
+
+@JohnFKennedyBot.message_handler(commands=['search']) # Indicamos que lo siguiente va a controlar el comando '/set_channel'
+
+def search(client): # Definimos una función que resuleva lo que necesitemos.
 
     cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
     
@@ -72,6 +83,22 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
 
     now = datetime.now()
     for client in messages: # Por cada dato 'm' en el dato 'messages'
+            
+        
+    ###    
+    ### MENSAJE DE BIENBENIDA    
+    ###    
+        cid = client.chat.id # Guardamos el ID de la conversación para poder responder.  
+                
+        if (client.text == "/start"):
+        
+            JohnFKennedyBot.send_message(cid, "Hola, bienvenido!")
+        
+        else:
+    
+            JohnFKennedyBot.send_message(cid," Hola, bienvenido de nuevo!")
+            
+    #///////////////////////////////////////////////////////////////77   
 
         cid = client.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
         if cid != client.chat.id:
@@ -99,11 +126,11 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
             groupName = str(client.chat.title) # Name group
             clientName = str(client.from_user.first_name) #Name user
 
-            JohnFKennedyBot.send_message(cid, "GroupName: " + groupName)
-            JohnFKennedyBot.send_message(cid, "clientName: " + clientName)
-
-            JohnFKennedyBot.send_message(cid, "Esto es un grupo")
+            #JohnFKennedyBot.send_message(cid, "GroupName: " + groupName)
+            #JohnFKennedyBot.send_message(cid, "clientName: " + clientName)
+            #JohnFKennedyBot.send_message(cid, "Esto es un grupo")
             #mensaje = clientName + " [" + str(cid) + "]: " + client.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
+            
             mensaje = clientName +": " + client.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
 
             nombre_documento = groupName
@@ -128,7 +155,8 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
         documentoNuevo.write(mensaje + "\n") # Escribimos la linea de log en el fichero.
         documentoNuevo.close() # Cerramos el fichero para que se guarde.
         
-
-
+        
+               
+        
 JohnFKennedyBot.set_update_listener(listener) # Así, le decimos al bot que utilice como función listener nuestra función 'listener' declarada arriba.
 JohnFKennedyBot.polling()

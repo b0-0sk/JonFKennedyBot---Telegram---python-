@@ -12,6 +12,9 @@ from datetime import datetime
 import os.path as path
 from encodings import undefined
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 
@@ -26,7 +29,7 @@ token = "891479632:AAEMeE7Ca15mkC0sVoY7g8F3I5F2MSktUxE" # token del bot.
 
 AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/info - Guia para utilizar el bot\n/hola - Saludo del Bot \n/b0_0sk - Informacion sobre b0_0sk \n\n'
 
-SET_CHANNEL = 'Introduiex el channel que vols que que consulti.\n'
+SET_KEYWORD = 'Introduiex la paraula que vols que introduiexi.\n'
 
 GRUPO_BOT = "-270997133" #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
 
@@ -65,7 +68,7 @@ def historial(client): # Definimos una función que resuleva lo que necesitemos.
     
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
     
-    JohnFKennedyBot.send_message( cid, SET_CHANNEL) # Nos devolvera el mensaje que previamente hemos escrito en la variable SET_CHANNEL.
+    JohnFKennedyBot.send_message( cid, SET_KEYWORD) # Nos devolvera el mensaje que previamente hemos escrito en la variable SET_CHANNEL.
 
 
 @JohnFKennedyBot.message_handler(commands=['search']) # Indicamos que lo siguiente va a controlar el comando '/set_channel'
@@ -110,7 +113,7 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
             clientName =  str(client.chat.first_name) # nom del chat
             clientDatetime = str(now.strftime("%d/%m/%Y %H:%M:%S"))
 
-            clientText = str(client.text)
+            clientText = client.text
             clientChat = str(client.chat)
 
             nombre_documento = clientName

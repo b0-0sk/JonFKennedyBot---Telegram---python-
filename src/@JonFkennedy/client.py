@@ -24,3 +24,6 @@ class client():
             self.charDict[defined] = text
     
     def removeFields(self,):
+        for x,y in self.charDict.items():
+            self.charDict[x] = ""
+            print(self.charDict[x])

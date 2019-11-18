@@ -1,0 +1,4 @@
+ Name  / cid / Datetime / message
+Arnau: hola
+Roddy -SergiR: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+Arnau [-270997133|12/11/2019 19:57:03]: asd

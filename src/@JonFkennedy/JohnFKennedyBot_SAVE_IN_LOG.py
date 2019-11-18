@@ -13,6 +13,7 @@ import os.path as path
 from encodings import undefined
 
 import sys
+from atk import Document
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -39,11 +40,27 @@ JohnFKennedyBot = telebot.TeleBot(token) # Creamos el objeto de nuestro bot.
 #############################################
 #Listener
 
+@JohnFKennedyBot.message_handler(commands=['start']) # Indicamos que lo siguiente va a controlar el comando '/ayuda'
+
+def welcome(messages): # Definimos una función que resuleva lo que necesitemos.
+
+    
+    ###    
+    ### MENSAJE DE BIENBENIDA    
+    ### 
+    
+    cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
+         
+    JohnFKennedyBot.send_message(cid, "Hola, bienvenido!")
+   
+   
+
+
 @JohnFKennedyBot.message_handler(commands=['ayuda']) # Indicamos que lo siguiente va a controlar el comando '/ayuda'
 
-def command_ayuda(client): # Definimos una función que resuleva lo que necesitemos.
+def command_ayuda(messages): # Definimos una función que resuleva lo que necesitemos.
 
-    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
+    cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
 
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
 
@@ -54,17 +71,36 @@ def command_ayuda(client): # Definimos una función que resuleva lo que necesite
 
 @JohnFKennedyBot.message_handler(commands=['info']) # Indicamos que lo siguiente va a controlar el comando '/info'
 
-def command_info(client): # Definimos una función que resuleva lo que necesitemos.
+def command_info(messages): # Definimos una función que resuleva lo que necesitemos.
+    
+    cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
+    
+    keyword = messages.text.split()
+    JohnFKennedyBot.send_message(cid, keyword[1])
+    documento = open( str(cid) +".txt")
+    linea = documento.readline()
+    
+    while linea != "":
+      if keyword[1] in linea:
+          
+          JohnFKennedyBot.send_message(cid, )
+      linea = documento.readline()
 
-    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
-
-    JohnFKennedyBot.send_message(cid, "Coming soon...")
-
+         
+           
+    #dato = documento.read() 
+        
+        
+    #JohnFKennedyBot.send_message( cid, dato)
+    #documento.close()
+    
+    
+    
 @JohnFKennedyBot.message_handler(commands=['historial']) # Indicamos que lo siguiente va a controlar el comando '/set_channel' INUTIL
 
-def historial(client): # Definimos una función que resuleva lo que necesitemos.
+def historial(messages): # Definimos una función que resuleva lo que necesitemos.
 
-    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
+    cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
     
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
     
@@ -73,73 +109,57 @@ def historial(client): # Definimos una función que resuleva lo que necesitemos.
 
 @JohnFKennedyBot.message_handler(commands=['search']) # Indicamos que lo siguiente va a controlar el comando '/set_channel'
 
-def search(client): # Definimos una función que resuleva lo que necesitemos.
+def search(messages): # Definimos una función que resuleva lo que necesitemos.
 
-    cid = client.chat.id # Guardamos el ID de la conversación para poder responder.
+    cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
     
     JohnFKennedyBot.send_chat_action(cid, 'typing') # Enviando ...
     
     JohnFKennedyBot.send_message( cid, SET_CHANNEL) # Nos devolvera el mensaje que previamente hemos escrito en la variable SET_CHANNEL.
 
 
+
 def listener(messages): # Con esto, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
 
     now = datetime.now()
-    for client in messages: # Por cada dato 'm' en el dato 'messages'
-            
-        
-    ###    
-    ### MENSAJE DE BIENBENIDA    
-    ###    
-        cid = client.chat.id # Guardamos el ID de la conversación para poder responder.  
-                
-        if (client.text == "/start"):
-        
-            JohnFKennedyBot.send_message(cid, "Hola, bienvenido!")
-        
-        else:
-    
-            JohnFKennedyBot.send_message(cid," Hola, bienvenido de nuevo!")
-            
-    #///////////////////////////////////////////////////////////////77   
+    for word in messages: # Por cada dato 'm' en el dato 'messages'
+             
+        cid = word.chat.id # Guardamos el ID de la conversación para poder responder.  
+                           
+        cid = word.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
+        if cid != word.chat.id:
+            cid = word.chat.id
 
-        cid = client.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
-        if cid != client.chat.id:
-            cid = client.chat.id
-
-        #JohnFKennedyBot.send_message(cid, cid) // Enviar en un mensaje el cid de la conversacion
+        
+        clientDatetime = str(now.strftime("%d/%m/%Y %H:%M:%S"))
+        clientText = word.text
         if cid > 0: # Conversacion privada
 
-            clientName =  str(client.chat.first_name) # nom del chat
-            clientDatetime = str(now.strftime("%d/%m/%Y %H:%M:%S"))
+            clientName =  str(word.chat.first_name) # nom del chat
 
-            clientText = client.text
-            clientChat = str(client.chat)
+            
+            clientChat = str(word.chat)
 
-            nombre_documento = clientName
+            nombre_documento = str(cid)
 
             mensaje = clientName + " [" + str(cid) + "|" + clientDatetime +"]: " + clientText     # Si 'cid' es positivo, usaremos 'm.chat.first_name' para el nombre.
-            #JohnFKennedyBot.send_message(cid, "Esto es privado") // Enviar un mensaje si el chat es privado
-            #JohnFKennedyBot.send_message(cid, messages) // Enviar todo el metadato del mensaje
-
+            
+            print (clientText)
 
         elif cid < 0: # Conversacion grupal
 
 
-            groupName = str(client.chat.title) # Name group
-            clientName = str(client.from_user.first_name) #Name user
+            groupName = str(word.chat.title) # Name group
+            clientName = str(word.from_user.first_name) #Name user
 
-            #JohnFKennedyBot.send_message(cid, "GroupName: " + groupName)
-            #JohnFKennedyBot.send_message(cid, "clientName: " + clientName)
-            #JohnFKennedyBot.send_message(cid, "Esto es un grupo")
-            #mensaje = clientName + " [" + str(cid) + "]: " + client.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
+            mensaje = clientName + " [" + str(cid) + "|" + clientDatetime +"]: " + clientText
+            nombre_documento = str(cid)
             
-            mensaje = clientName +": " + client.text # Si 'cid' es negativo, usaremos 'm.from_user.first_name' para el nombre.
+            #for word in messages:
+             #  print (word)
+            
 
-            nombre_documento = groupName
-
-            #JohnFKennedyBot.send_message(cid, groupName)
-            #JohnFKennedyBot.send_message(cid, messages)     
+        
         
         # si el documento existe escribe debajo
         if path.exists(nombre_documento + '.txt') == True:

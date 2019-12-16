@@ -1,4 +1,7 @@
  Name  / cid / Datetime / message
-Arnau: hola
-Roddy -SergiR: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-Arnau [-270997133|12/11/2019 19:57:03]: asd
+Roddy-SergiR|-270997133|04/12/2019|16:27:49|/search d| 
+Roddy-SergiR|-270997133|04/12/2019|16:28:02|/search d| 
+Roddy-SergiR|-270997133|04/12/2019|16:28:20|/search a| 
+Arnau|-270997133|04/12/2019|16:30:06|/search j| 
+Roddy-SergiR|-270997133|04/12/2019|16:30:16|/search aa| 
+Arnau|-270997133|04/12/2019|16:32:07|/search aa| 

@@ -10,13 +10,11 @@ import time # Librería para hacer que el programa que controla el bot no se aca
 from datetime import datetime, date
 
 import os.path as path
-from encodings import undefined
-
-import sys
-from atk import Document
-from cgitb import text
-reload(sys)
-sys.setdefaultencoding('utf8')
+#from encodings import undefined
+#from cgitb import text
+#from atk import Document
+#import sys
+#sys.setdefaultencoding('utf8')
 
 import telebot 
 import ast 
@@ -35,7 +33,7 @@ token = "891479632:AAEMeE7Ca15mkC0sVoY7g8F3I5F2MSktUxE" # token del bot.
 
 
 
-AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/info - Guia para utilizar el bot \n         · /search [keyword] [search dd/mm/yyyy hh/mm/ss]\n/hola - Saludo del Bot \n/b0_0sk - Informacion sobre b0_0sk \n\n'
+AYUDA = 'Puedes utilizar los siguientes comandos : \n\n/info - Guia para utilizar el bot \n         · /search [keyword] [dd/mm/yyyy hh/mm/ss]\n/hola - Saludo del Bot \n/b0_0sk - Informacion sobre b0_0sk \n\n'
 
 
 GRUPO_BOT = "-270997133" #Definimos que cuando pongamos la palabra grupo lo vincule con el Id del grupo donde nos encontremos.  Al meter el bot en un grupo, en la propia consola nos saldrá
@@ -62,7 +60,7 @@ def welcome(messages): # Definimos una función que resuleva lo que necesitemos.
    
 
 
-@JohnFKennedyBot.message_handler(commands=['ayuda']) # Indicamos que lo siguiente va a controlar el comando '/ayuda'
+@JohnFKennedyBot.message_handler(commands=['help']) # Indicamos que lo siguiente va a controlar el comando '/ayuda'
 
 def command_ayuda(messages): # Definimos una función que resuleva lo que necesitemos.
 
@@ -87,7 +85,7 @@ def command_bt(messages): # Definimos una función que resuleva lo que necesitem
 
 @JohnFKennedyBot.message_handler(commands=['search']) # Indicamos que lo siguiente va a controlar el comando '/info'
 
-def command_info(messages): # Definimos una función que resuleva lo que necesitemos.
+def command_search(messages): # Definimos una función que resuleva lo que necesitemos.
     
     cid = messages.chat.id # Guardamos el ID de la conversación para poder responder.
     keyword = messages.text.split()
@@ -96,43 +94,61 @@ def command_info(messages): # Definimos una función que resuleva lo que necesit
        
         
         #JohnFKennedyBot.send_message(cid, keyword[1])
-        documento = open( str(cid) +".txt")
-        linea = documento.readline()  
-        CountLines = 0
-        
-        while linea != "":
-          if keyword[1] in linea:
-              
-              InfoWords= linea.split("|")
-              #print ("Keyword" + keyword[1])
-              InfoWords[3] = InfoWords[3].replace(keyword[1],"*"+keyword[1]+"*")
-              
-              JohnFKennedyBot.send_message(cid, "    - User: ["+InfoWords[0] +"]\n    - Date: ["+ InfoWords[2]+"]\n    - Message: "+ InfoWords[3],parse_mode= 'Markdown')
-              CountLines = CountLines + 1
-          linea = documento.readline()
-        
-        JohnFKennedyBot.send_message(cid, "Ha habido " + str(CountLines) + " ocurrencias")
+        if path.exists(str(cid) +".txt") == True:
+            
+            documento = open( str(cid) +".txt")
+            linea = documento.readline()
+            
 
-        
+            CountLines = 0
+            
+            if keyword[1] == 'd':
+                JohnFKennedyBot.send_message(cid, "Enserio quieres buscar la * d *  ? are you fucking kidding me")
+            else:
+                while linea != "":
+                    if keyword[1] in linea:
+                        
+                        InfoWords= linea.split("|")
+                        InfoWords[4] = InfoWords[4].replace(keyword[1],"*"+keyword[1]+"*")
+                        print (InfoWords[3])
+                        JohnFKennedyBot.send_message(cid, "    - User: ["+InfoWords[0] +"]\n    - Date: ["+ InfoWords[2] +" "+InfoWords[3]+"]\n    - Message: "+ InfoWords[4], parse_mode = 'Markdown')
+                        CountLines = CountLines + 1
+                                   
+                       
+                    linea = documento.readline()
+                JohnFKennedyBot.send_message(cid, "Ha habido " + str(CountLines) + " ocurrencias")
+
+        else:
+                    
+            JohnFKennedyBot.send_message(cid, "Porfavor, introduzca algun texto para poder ejecutar correctamente la funcion /search  ")
+
     else:
         
-        JohnFKennedyBot.send_message(cid, "Porfavor, introduzca un argumento :\n  - /search [keyword]\n  - /search dd/mm/yyyy hh/mm/ss] ")
-         
+        JohnFKennedyBot.send_message(cid, "Porfavor, introduzca un argumento :\n  - /search [keyword]\n  - /search [dd/mm/yyyy hh/mm/ss] ")
+
+@JohnFKennedyBot.message_handler(commands=['searchTime']) # Indicamos que lo siguiente va a controlar el comando '/info'
+
+def command_searchTime(messages): # Definimos una función que resuleva lo que necesitemos.
+    
+    command_search(messages)
     
 
 def listener(messages): # Con esto, estamos definiendo una función llamada 'listener', que recibe como parámetro un dato llamado 'messages'.
-  
+
     now = datetime.now() # Variable para guardar la fecha del mensaje
+    
+    
     for word in messages: # Por cada dato 'm' en el dato 'messages'
              
         cid = word.chat.id # Guardamos el ID de la conversación para poder responder.  
                            
-        cid = word.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
+        #cid = word.chat.id # El Cid es el identificador del chat los negativos son grupos y positivos los usuarios
         if cid != word.chat.id:
             cid = word.chat.id
 
         
-        clientDatetime = str(now.strftime("%d/%m/%Y %H:%M:%S"))
+        clientDayMonthYear= str(now.strftime("%d/%m/%Y"))
+        clientHourMinSec = str(now.strftime("%H:%M:%S"))
         clientText = word.text
         if cid > 0: # Conversacion privada
 
@@ -142,11 +158,8 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
 
             nombre_documento = str(cid)
 
-            mensaje = clientName + "|" + str(cid) + "|" + clientDatetime +"|" + clientText+"| "     # Si 'cid' es positivo, usaremos 'm.chat.first_name' para el nombre.
-            
-            
-            
-            
+            mensaje = clientName + "|" + str(cid) + "|" + clientDayMonthYear + "|" + clientHourMinSec + "|" + clientText+"| "     # Si 'cid' es positivo, usaremos 'm.chat.first_name' para el nombre.
+                
 
         elif cid < 0: # Conversacion grupal
 
@@ -154,7 +167,7 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
             groupName = str(word.chat.title) # Name group
             clientName = str(word.from_user.first_name) #Name user
 
-            mensaje = clientName + "|" + str(cid) + "|" + clientDatetime +"|" + clientText+"| "
+            mensaje = clientName + "|" + str(cid) + "|" + clientDayMonthYear + "|" + clientHourMinSec + "|" + clientText+"| "
             nombre_documento = str(cid)
             
             #for word in messages:
@@ -182,6 +195,6 @@ def listener(messages): # Con esto, estamos definiendo una función llamada 'lis
         
         
                
-        
+       
 JohnFKennedyBot.set_update_listener(listener) # Así, le decimos al bot que utilice como función listener nuestra función 'listener' declarada arriba.
 JohnFKennedyBot.polling()

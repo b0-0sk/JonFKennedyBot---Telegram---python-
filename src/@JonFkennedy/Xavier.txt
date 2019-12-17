@@ -1,2 +1,0 @@
- Name  / cid / Datetime / message
-Xavier [945032772|30/10/2019 18:03:53]: /start

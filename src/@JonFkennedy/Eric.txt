@@ -1,3 +1,0 @@
- Name  / cid / Datetime / message
-Eric [863816876|30/10/2019 18:00:42]: /start
-Eric [863816876|30/10/2019 18:04:12]: hola
